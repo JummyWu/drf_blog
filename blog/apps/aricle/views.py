@@ -1,6 +1,7 @@
 from rest_framework import viewsets
-from rest_framework import filters
-from rest_framework.mixins import ListModelMixin
+from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
+from rest_framework.viewsets import GenericViewSet
+
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
@@ -9,7 +10,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Category, Tag, Aricle
 from .serializer import CategorySerializer, TagSerializer, AricleSerializer
-from .filters import AricleFilter
+from .filters import CategoryFilter
 # Create your views here.
 
 
@@ -22,7 +23,7 @@ class AriclePagination(PageNumberPagination):
     max_page_size = 100
 
 
-class CategoryView(viewsets.ModelViewSet, ListModelMixin):
+class CategoryView(ListModelMixin, RetrieveModelMixin, GenericViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
@@ -41,10 +42,10 @@ class TagView(viewsets.ModelViewSet, ListModelMixin):
     serializer_class = TagSerializer
 
 
-class AricleView(viewsets.ModelViewSet, ListModelMixin):
+class AricleView(ListModelMixin, RetrieveModelMixin, GenericViewSet):
     queryset = Aricle.objects.all()
     serializer_class = AricleSerializer
     pagination_class = AriclePagination
     # 设置三大常用过滤器DjangoFilterBackend
-    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
+    filter_backends = (CategoryFilter, )
     filter_fields = ['title', ]
