@@ -9,6 +9,7 @@ class Profile(AbstractUser):
     img = models.ImageField(upload_to='users', max_length=200, null=True,
                             blank=True, verbose_name='头像')
     github_id = models.PositiveIntegerField('Github_id', unique=True, null=True, blank=True)
+    git_path = models.CharField(max_length=400, null=True, blank=True, verbose_name='Git地址')
 
     def __str__(self):
         return str(self.username)

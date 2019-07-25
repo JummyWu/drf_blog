@@ -69,6 +69,7 @@ class GitHubOAuthView(OauthView):
             user = Profile.objects.create_user(user_info['login'], user_info['email'])
             user.github_id = user_info['id']
             user.img = user_info['avatar_url']
+            user.git_path = user_info['html_url']
             user.save()
         else:
             user = user[0]

@@ -14,23 +14,31 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
 from django.conf.urls import url, include
+from django.views.generic import TemplateView
 from rest_framework import routers
+from rest_framework_jwt.views import obtain_jwt_token
 
-from aricle.views import CategoryView, TagView, AricleView
+from aricle.views import CategoryView, TagView, AricleView, HomeImgView
 from user.views import ProfileView
+from comment.views import CommentViewSet
+from likes.views import LikeViewSet
+
 
 routers = routers.DefaultRouter()
 routers.register(r'category', CategoryView, base_name='category')
 routers.register(r'tag', TagView, base_name='tag')
 routers.register(r'aricle', AricleView, base_name='aricle')
 routers.register(r'user', ProfileView, base_name='user')
-
-
+routers.register(r'comment', CommentViewSet, base_name='comment')
+routers.register(r'like', LikeViewSet, base_name='like')
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include(routers.urls)),
-    url('^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^admin/', admin.site.urls),
+    url(r'^(?P<version>(v1|v2))/', include(routers.urls)),  # 版本控制
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^users/', include('user.urls')),  # GIt登陆接口
+    url(r'^(?P<version>(v1|v2))/login/', obtain_jwt_token),
+    url(r'^home_img/$', HomeImgView.as_view()),
+    url(r'^', TemplateView.as_view(template_name="index.html"), name="index"),
 ]

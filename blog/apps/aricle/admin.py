@@ -7,4 +7,3 @@ admin.site.register(Category)
 admin.site.register(Tag)
 
 admin.site.register(Aricle)
-
