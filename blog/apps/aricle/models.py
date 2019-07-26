@@ -3,6 +3,7 @@ import markdown
 from django.db import models
 from django.db.models import F
 from django.contrib.contenttypes.fields import GenericRelation
+from simditor.fields import RichTextField
 
 from user.models import Profile as User
 from likes.models import LikeRecord, LikeCount
@@ -39,7 +40,7 @@ class Aricle(models.Model):
     desc = models.CharField(max_length=100, blank=True, verbose_name='摘要')
     category = models.ForeignKey('Category', verbose_name='分类', on_delete=models.DO_NOTHING)
     tags = models.ManyToManyField('Tag', related_name='posts', verbose_name='标签')
-    content = models.TextField(verbose_name='内容', help_text='目前支持markdown')
+    content = RichTextField(verbose_name='内容')
     is_markdown = models.BooleanField(verbose_name='使用markdown', default=True)
     html = models.TextField(verbose_name='渲染后的格式', default='')
     img = models.ImageField(upload_to='article/img', blank=True, null=True, verbose_name='封面图')

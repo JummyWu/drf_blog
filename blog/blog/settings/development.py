@@ -1,9 +1,22 @@
 import os
 from .base import *
+from decouple import config
+
 
 DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = ['*']
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'wu_blog',
+        'USER': 'root',
+        'PASSWORD': 'Canbee2018!',
+        'HOST': '111.230.25.51',
+        "PORT": '3306',
+    }
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {  # 定义限流速率，支持秒、分、时、天的限制

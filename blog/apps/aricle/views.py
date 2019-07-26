@@ -77,6 +77,9 @@ class AricleView(ListModelMixin, RetrieveModelMixin, GenericViewSet):
     def retrieve(self, request, *args, **kwargs):
         """is_Like判断是否点赞"""
         try:
+            instance = self.get_object()
+            instance.pv += 1
+            instance.save()
             self.serializer_class = AricleSerializer
             res = super().retrieve(request, *args, **kwargs)
             if isinstance(request.user, AnonymousUser):

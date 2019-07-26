@@ -4,6 +4,8 @@ import os
 import random
 
 from django.conf import settings
+from django.views import generic
+from simditor.views import upload_handler
 from django.contrib.contenttypes.models import ContentType
 
 
@@ -22,3 +24,13 @@ def img_list():
     return random_url
 
 img_data = img_list()
+
+
+class ImageUploadView(generic.View):
+    """ImageUploadView."""
+
+    http_method_names = ['post']
+
+    def post(self, request, **kwargs):
+        """Post."""
+        return upload_handler(request)

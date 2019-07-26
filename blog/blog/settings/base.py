@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'corsheaders',
+    'simditor',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -88,16 +89,16 @@ WSGI_APPLICATION = 'blog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'wu_blog',
-        'USER': 'root',
-        'PASSWORD': 'Canbee2018!',
-        'HOST': '111.230.25.51',
-        "PORT": '3306',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': config('NAME'),
+#         'USER': config('USER'),
+#         'PASSWORD': config('PASSWORD'),
+#         'HOST': config('HOST'),
+#         "PORT": config('PORT'),
+#     }
+# }
 
 CACHES = {
     'default': {
@@ -151,6 +152,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 REST_FRAMEWORK = {
@@ -184,6 +186,29 @@ JWT_AUTH = {
 
 GITHUB_CLIENT_ID = config('GITHUB_ID')
 GITHUB_CLIENT_SECRET = config('GITHUB_SECRET')
+
+
+SIMDITOR_UPLOAD_PATH = 'uploads/'
+SIMDITOR_IMAGE_BACKEND = 'pillow'
+
+SIMDITOR_TOOLBAR = [
+    'title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale',
+    'color', '|', 'ol', 'ul', 'blockquote', 'code', 'table', '|', 'link',
+    'image', 'hr', '|', 'indent', 'outdent', 'alignment',
+    'markdown', 'emoji', 'checklist', 'fullscreen'
+]
+
+SIMDITOR_CONFIGS = {
+    'toolbar': SIMDITOR_TOOLBAR,
+    'upload': {
+        'url': '/simditor/upload/',
+        'fileKey': 'upload',
+        'image_size': 1024 * 1024 * 4  # max image size 4MB
+    },
+    'emoji': {
+        'imagePath': '/static/simditor/images/emoji/'
+    }
+}
 
 LOGGING = {
     'version': 1,

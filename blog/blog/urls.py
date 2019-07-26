@@ -18,11 +18,13 @@ from django.conf.urls import url, include
 from django.views.generic import TemplateView
 from rest_framework import routers
 from rest_framework_jwt.views import obtain_jwt_token
+from django.views.decorators.csrf import csrf_exempt
 
 from aricle.views import CategoryView, TagView, AricleView, HomeImgView
 from user.views import ProfileView
 from comment.views import CommentViewSet
 from likes.views import LikeViewSet
+from utils import ImageUploadView
 
 
 routers = routers.DefaultRouter()
@@ -35,6 +37,8 @@ routers.register(r'like', LikeViewSet, base_name='like')
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^simditor/', include('simditor.urls')),
+    url(r'^simditor/upload', csrf_exempt(ImageUploadView.as_view())),
     url(r'^(?P<version>(v1|v2))/', include(routers.urls)),  # 版本控制
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^users/', include('user.urls')),  # GIt登陆接口
