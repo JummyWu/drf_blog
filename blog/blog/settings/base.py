@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'user',
     'comment',
     'likes',
+    'wechat',
 
     'rest_framework',
     'django_filters',
@@ -100,16 +101,7 @@ WSGI_APPLICATION = 'blog.wsgi.application'
 #     }
 # }
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/4',
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            'PARSER_CLASS': 'redis.connection.HiredisParser'
-        }
-    }
-}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

@@ -60,6 +60,7 @@ class AricleSerializer(ModelSerializer):
     add_time = serializers.DateTimeField(format='%Y-%m-%d %H:%M')
     like_count = serializers.SerializerMethodField()
     like_record = serializers.SerializerMethodField()
+    tags = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
 
     def get_like_count(self, queryset):
         obj, created = queryset.Like_count.get_or_create(
@@ -74,10 +75,17 @@ class AricleSerializer(ModelSerializer):
                                           'liked_time', 'user__git_path')
         return LikeRecordSerializer(obj, many=True).data
 
+    @staticmethod
+    def setup_eager_loading(queryset):
+        queryset = queryset.select_relate('owner')
+        queryset = queryset.select_relate('category')
+        queryset = queryset.prefetch_related('tags')
+        return queryset
+
     class Meta:
         model = Aricle
-        fields = ('id', 'html', 'title', 'content', 'add_time', 'category',
-                        'like_count', 'like_record', 'pv')
+        fields = ('id', 'html', 'title', 'add_time', 'category',
+                        'like_count', 'like_record', 'pv', 'tags')
 
 
 class ArtcleListSerializer(ModelSerializer):
@@ -86,6 +94,7 @@ class ArtcleListSerializer(ModelSerializer):
     add_time = serializers.DateTimeField(format='%Y-%m-%d %H:%M')
     like_count = serializers.SerializerMethodField()    # 点赞数
     cover = serializers.SerializerMethodField()     # 封面图
+    tags = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
 
     def get_cover(self, queryset):
         return img_data()
@@ -96,7 +105,12 @@ class ArtcleListSerializer(ModelSerializer):
             object_id=queryset.id)
         return obj.likes_num
 
+    @staticmethod
+    def setup_eager_loading(queryset):
+        queryset = queryset.prefetch_related('tags')
+        return queryset
+
     class Meta:
         model = Aricle
-        fields = ('id', 'title', 'cover', 'add_time', 'category', 'like_count', 'pv')
+        fields = ('id', 'title', 'cover', 'add_time', 'category', 'like_count', 'pv', 'tags')
 

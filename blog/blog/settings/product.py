@@ -25,8 +25,6 @@ CACHES = {
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
             'PARSER_CLASS': 'redis.connection.HiredisParser',
-            'PASSWORD': 'wujianheng'
-
         }
     }
 }
@@ -50,7 +48,10 @@ REST_FRAMEWORK = {
 }
 REST_FRAMEWORK_EXTENSIONS = {
     # 缓存时间
-    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 60 * 60,
+    'DEFAULT_CACHE_RESPONSE_TIMEOUT': 60 * 60,
     # 缓存存储
     'DEFAULT_USE_CACHE': 'default',
 }
+WECHAT_APP_ID = 'wxc4d8c0dc77ee196e'
+WECHAT_APPSECRET = '92599220115451d6602e9573d8c0418d'
+WECHAT_TOKEN = 'jummywu'

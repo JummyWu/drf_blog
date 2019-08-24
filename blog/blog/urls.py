@@ -44,5 +44,6 @@ urlpatterns = [
     url(r'^users/', include('user.urls')),  # GIt登陆接口
     url(r'^(?P<version>(v1|v2))/login/', obtain_jwt_token),
     url(r'^home_img/$', HomeImgView.as_view()),
+    url(r'^wx/', include('wechat.urls', namespace='wechat')),
     url(r'^', TemplateView.as_view(template_name="index.html"), name="index"),
 ]
